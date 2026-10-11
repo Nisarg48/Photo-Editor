@@ -6,8 +6,23 @@
     <title>Photo Editor</title>
     <link rel="stylesheet" href="/CSS/Photo_Editor.css">
 </head>
-<body>
-    <h1 align="center">Photo Editor</h1>
+<body data-theme="dark">
+    <header class="app-header">
+        <h1>Photo Editor</h1>
+        <button class="theme-toggle" aria-label="Toggle theme">
+            <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+        </button>
+    </header>
 
 <!-- Main Division That Contain Two Main Division -->
 <div class="webpage">
@@ -17,7 +32,7 @@
         
         <!-- Division For Insert Image -->
         <div class="insert_image">
-            <img src="">
+            <canvas id="editor-canvas"></canvas>
         </div>
 
         <div class="choose_image">
@@ -29,6 +44,37 @@
     <!-- Division That Contain Tools -->
     <div class="tools">
         
+        <!-- History Controls -->
+        <div class="history-controls">
+            <button class="undo" disabled aria-label="Undo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 7v6h6"></path>
+                    <path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"></path>
+                </svg>
+            </button>
+            <button class="redo" disabled aria-label="Redo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 7v6h-6"></path>
+                    <path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3L21 13"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Auto Enhance -->
+        <div class="auto_enhance">
+            <button class="auto_enhance_button">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+                <circle cx="12" cy="12" r="4"></circle>
+                <path d="M12 2a10 10 0 0 1 10 10"></path>
+                <path d="M12 2a10 10 0 0 0-10 10"></path>
+                <path d="M12 22a10 10 0 0 1-10-10"></path>
+                    <path d="M12 22a10 10 0 0 0 10-10"></path>
+                </svg>
+                Auto Enhance
+            </button>
+        </div>
+
         <!-- Slider -->
         <div class="slider">
             <div class="filter_info">
@@ -40,12 +86,123 @@
 
         <!-- Filter Icon -->
         <div class="filter_icon">
-            <p><b>Filter</b></p>
+            <p><b>Adjustments</b></p>
             <div class="filter_icon_buttons">
-                <button title="Brightness" id="Brightness" class="active"><img src="/Photo/brightness.png" alt="Brightness"></button>
-                <button title="Contrast" id="Contrast"><img src="/Photo/contrast.png" alt="Contrast"></button>
-                <button title="Saturation" id="Saturation"><img src="/Photo/saturation.png" alt="Saturation"></button>
-                <button title="Blur" id="Blur"><img src="/Photo/blur.png" alt="Blur"></button>
+                <button title="Brightness" id="Brightness" class="active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <button title="Contrast" id="Contrast">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <circle cx="12" cy="12" r="4"></circle>
+                    </svg>
+                </button>
+                <button title="Saturation" id="Saturation">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 2a10 10 0 0 1 0 20"></path>
+                    </svg>
+                </button>
+                <button title="Exposure" id="Exposure">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <button title="Hue" id="Hue">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 2a10 10 0 0 1 10 10"></path>
+                    </svg>
+                </button>
+                <button title="Vibrance" id="Vibrance">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                    </svg>
+                </button>
+                <button title="Blur" id="Blur">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <circle cx="12" cy="12" r="4"></circle>
+                        <circle cx="12" cy="12" r="2"></circle>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Preset Filters -->
+        <div class="preset_filters">
+            <p><b>Preset Filters</b></p>
+            <div class="preset_filter_buttons">
+                <button title="Grayscale" id="Grayscale">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="2" width="20" height="20" rx="2"></rect>
+                        <circle cx="12" cy="12" r="5"></circle>
+                    </svg>
+                </button>
+                <button title="Sepia" id="Sepia">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="2" width="20" height="20" rx="2"></rect>
+                        <path d="M12 2v20"></path>
+                    </svg>
+                </button>
+                <button title="Invert" id="Invert">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 2a10 10 0 0 1 0 20"></path>
+                    </svg>
+                </button>
+                <button title="Sharpen" id="Sharpen">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="12 2 22 22 2 22"></polygon>
+                    </svg>
+                </button>
+                <button title="Vintage" id="Vintage">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 2v20"></path>
+                        <path d="M2 12h20"></path>
+                    </svg>
+                </button>
+                <button title="Noir" id="Noir">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 2a10 10 0 0 1 0 20"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                </button>
+                <button title="Portrait" id="Portrait">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="8" r="4"></circle>
+                        <path d="M12 13v9"></path>
+                        <path d="M8 21c0-2 2-3 4-3s4 1 4 3"></path>
+                    </svg>
+                </button>
+                <button title="HDR" id="HDR">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 2v20"></path>
+                        <path d="M2 12h20"></path>
+                        <circle cx="12" cy="12" r="4"></circle>
+                    </svg>
+                </button>
             </div>
         </div>
 
@@ -53,35 +210,170 @@
         <div class="alignment_icon">
             <p><b>Rotate & Flip</b></p>
             <div class="alignment_icon_buttons">
-                <button title="Rotate_Right" id="Rotate_Right"><img src="/Photo/rotate.png" alt=""></button>
-                <button title="Flip_X" id="Flip_X"><img src="/Photo/mirror-L-R.png" alt=""></button>
-                <button title="Flip_Y" id="Flip_Y"><img src="/Photo/mirror-T-B.png" alt=""></button>
-                <!-- <button><img src="/Photo/" alt=""></button> -->
+                <button title="Rotate_Right" id="Rotate_Right">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="23 4 23 10 17 10"></polyline>
+                        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                    </svg>
+                </button>
+                <button title="Rotate_Left" id="Rotate_Left">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="1 4 1 10 7 10"></polyline>
+                        <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                    </svg>
+                </button>
+                <button title="Flip_X" id="Flip_X">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2v20"></path>
+                        <path d="M4 6h16"></path>
+                        <path d="M4 18h16"></path>
+                    </svg>
+                </button>
+                <button title="Flip_Y" id="Flip_Y">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M2 12h20"></path>
+                        <path d="M6 4v16"></path>
+                        <path d="M18 4v16"></path>
+                    </svg>
+                </button>
             </div>
         </div>
 
-        <!-- Add these elements to your existing HTML -->
+        <!-- Crop Tool -->
         <div class="Cropper">
             <div class="crop_resize">
                 <button class="crop">Crop</button>
-                <button class="resize">Resize</button>
+                <button class="resize">Reset</button>
             </div>
 
             <div class="crop_resize_options" style="display: none;">
-                <input type="number" id="crop_x" placeholder="X Coordinate">
-                <input type="number" id="crop_y" placeholder="Y Coordinate">
-                <input type="number" id="crop_width" placeholder="Width">
-                <input type="number" id="crop_height" placeholder="Height">
+                <div class="aspect-ratio-selector">
+                    <label for="aspect_ratio">Aspect Ratio:</label>
+                    <select id="aspect_ratio">
+                        <option value="free">Free</option>
+                        <option value="1:1">1:1 (Square)</option>
+                        <option value="4:3">4:3</option>
+                        <option value="16:9">16:9</option>
+                        <option value="3:2">3:2</option>
+                        <option value="5:4">5:4</option>
+                    </select>
+                </div>
                 <button class="apply_crop">Apply Crop</button>
+                <button class="cancel_crop">Cancel</button>
+            </div>
+        </div>
+
+        <!-- Save Options -->
+        <div class="save_options">
+            <p><b>Save Options</b></p>
+            <div class="save_controls">
+                <div class="save_format">
+                    <label for="save_format">Format:</label>
+                    <select id="save_format">
+                        <option value="image/png">PNG</option>
+                        <option value="image/jpeg">JPG</option>
+                        <option value="image/webp">WebP</option>
+                    </select>
+                </div>
+                <div class="save_quality">
+                    <label for="save_quality">Quality:</label>
+                    <input type="range" id="save_quality" min="10" max="100" value="90">
+                    <span class="quality-value">90%</span>
+                </div>
+                <div class="save_filename">
+                    <label for="save_filename">Filename:</label>
+                    <input type="text" id="save_filename" placeholder="edited-image" value="edited-image">
+                </div>
+                <div class="metadata_options">
+                    <label>
+                        <input type="checkbox" id="strip_metadata">
+                        Strip metadata for privacy
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Social Media Presets -->
+        <div class="social_media">
+            <p><b>Social Media</b></p>
+            <div class="social_controls">
+                <div class="platform_selector">
+                    <label for="platform_select">Platform:</label>
+                    <select id="platform_select">
+                        <option value="">Select Platform</option>
+                        <option value="instagram">Instagram</option>
+                        <option value="facebook">Facebook</option>
+                        <option value="twitter">Twitter/X</option>
+                        <option value="linkedin">LinkedIn</option>
+                    </select>
+                </div>
+                <div class="format_selector">
+                    <label for="format_select">Format:</label>
+                    <select id="format_select" disabled>
+                        <option value="">Select Platform First</option>
+                    </select>
+                </div>
+                <button class="apply_preset">Apply Preset</button>
+            </div>
+            <div class="current_dimensions">
+                <span class="dimensions-label">Current: </span>
+                <span class="dimensions-value">0 x 0</span>
+            </div>
+        </div>
+
+        <!-- Watermark Tool -->
+        <div class="watermark_tool">
+            <p><b>Watermark</b></p>
+            <div class="watermark_controls">
+                <button class="add_watermark">Add Text</button>
+                <button class="clear_watermarks">Clear All</button>
+            </div>
+            <div class="watermark_options" style="display: none;">
+                <div class="watermark_text">
+                    <label for="watermark_text">Text:</label>
+                    <input type="text" id="watermark_text" placeholder="© Your Name" value="© Your Name">
+                </div>
+                <div class="watermark_font">
+                    <label for="watermark_font">Font:</label>
+                    <select id="watermark_font">
+                        <option value="Arial">Arial</option>
+                        <option value="Helvetica">Helvetica</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Verdana">Verdana</option>
+                        <option value="Courier New">Courier New</option>
+                    </select>
+                </div>
+                <div class="watermark_size">
+                    <label for="watermark_size">Size:</label>
+                    <input type="range" id="watermark_size" min="12" max="72" value="24">
+                    <span class="size-value">24px</span>
+                </div>
+                <div class="watermark_color">
+                    <label for="watermark_color">Color:</label>
+                    <input type="color" id="watermark_color" value="#ffffff">
+                </div>
+                <div class="watermark_opacity">
+                    <label for="watermark_opacity">Opacity:</label>
+                    <input type="range" id="watermark_opacity" min="0" max="100" value="80">
+                    <span class="opacity-value">80%</span>
+                </div>
+                <div class="watermark_actions">
+                    <button class="apply_watermark">Apply</button>
+                    <button class="cancel_watermark">Cancel</button>
+                </div>
             </div>
         </div>
 
         <div class="reset_save">
-            <button class="reset">Reset</button>
+            <button class="reset">Reset All</button>
             <button class="save">Save Image</button>
         </div> 
     </div>
 </div>
-<script src="/JS/Photo_Editor.js"></script>
+
+<!-- Notification -->
+<div class="notification" style="display: none;"></div>
+<script type="module" src="/JS/main.js"></script>
 </body>
 </html>
