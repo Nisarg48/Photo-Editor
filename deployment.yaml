@@ -2,13 +2,14 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: photo-editor-deployment
+  namespace: photo-editor
   labels:
-    app: photo-editor-deployment
+    app: photo-editor-deployment # just tags this Deployment object, not used for matching
 spec:
-  replicas: 2
+  replicas: 2 # how many Pod copies to keep running
   selector:
     matchLabels:
-      app: photo-editor
+      app: photo-editor # must match template.metadata.labels below, exactly
   template:
     metadata:
       labels:
@@ -18,4 +19,4 @@ spec:
       - name: photo-editor-container
         image: nisarg48/photo-editor:latest
         ports:
-        - containerPort: 80
+        - containerPort: 80 # must match Service targetPort, and what nginx actually binds to

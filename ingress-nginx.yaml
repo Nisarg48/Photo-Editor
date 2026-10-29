@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: photo-editor-ingress
+  namespace: photo-editor
+  labels:
+    app.kubernetes.io/name: photo-editor-ingress # just tags this Ingress object
+spec:
+  ingressClassName: nginx # match with Ingress Controller we install manually using helm chart
+  rules:
+  - http:
+      paths:
+      - pathType: Prefix # match any path starting with "/"
+        path: "/"
+        backend:
+          service:
+            name: photo-editor-service # same as Service name
+            port:
+              number: 80 # same as port exposed by Service — not targetPort
