@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata: 
+  name: photo-editor-service
+spec:
+  selector:
+    app: photo-editor #same as pod labels
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80 # Same as container port

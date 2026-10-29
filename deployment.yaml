@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: photo-editor-deployment
+  labels:
+    app: photo-editor-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: photo-editor
+  template:
+    metadata:
+      labels:
+        app: photo-editor # same as spec.selector.matchLabels.app
+    spec:
+      containers:
+      - name: photo-editor-container
+        image: nisarg48/photo-editor:latest
+        ports:
+        - containerPort: 80
