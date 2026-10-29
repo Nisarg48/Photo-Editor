@@ -56,6 +56,15 @@ helm install ingress-nginx ingress-nginx/ingress-nginx \
 kubectl apply -f ingress-nginx.yaml
 ```
 
+## Access Application using Public Address
+```sh
+kubectl get svc -n ingress-nginx ingress-nginx-controller
+```
+```text
+look at the EXTERNAL-IP column, then open http://<that address> in a browser
+curl http://<that address>
+```
+
 ## Remove Ingress from EKS
 ```sh
 kubectl delete ingress photo-editor-ingress -n photo-editor
