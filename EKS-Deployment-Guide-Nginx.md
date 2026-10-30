@@ -1,10 +1,8 @@
-
-
 ## Create Cluster on EKS
 ```sh
 eksctl create cluster \
     --name development-cluster \
-    --region ap-south-1 \
+    --region ap-southeast-2 \
     --fargate
 ```
 
@@ -17,7 +15,7 @@ kubectl apply -f namespace.yaml
 ```sh
 eksctl create fargateprofile \
     --cluster development-cluster \
-    --region ap-south-1 \
+    --region ap-southeast-2 \
     --name photo-editor \
     --namespace photo-editor 
 ```
@@ -36,7 +34,7 @@ kubectl apply -f service.yaml
 ```sh
 eksctl create fargateprofile \
     --cluster development-cluster \
-    --region ap-south-1 \
+    --region ap-southeast-2 \
     --name ingress-nginx \
     --namespace ingress-nginx
 ```
@@ -90,7 +88,7 @@ helm uninstall ingress-nginx -n ingress-nginx
 eksctl delete fargateprofile \
     --name ingress-nginx \
     --cluster development-cluster \
-    --region ap-south-1
+    --region ap-southeast-2
 ```
 
 ## Remove Fargate Profile from EKS
@@ -98,7 +96,7 @@ eksctl delete fargateprofile \
 eksctl delete fargateprofile \
     --name photo-editor \
     --cluster development-cluster \
-    --region ap-south-1
+    --region ap-southeast-2
 ```
 
 ## Remove Controller Namespace from EKS
@@ -115,5 +113,5 @@ kubectl delete namespace photo-editor
 ```sh
 eksctl delete cluster \
     --name development-cluster \
-    --region ap-south-1
+    --region ap-southeast-2
 ```
